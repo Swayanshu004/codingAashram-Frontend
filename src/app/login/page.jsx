@@ -6,13 +6,31 @@ import axios from 'axios';
 
 function Page() {
   const [load, setLoad] = useState(false);
+  const [otpon, setOtpon] = useState(false);
+  const [otpload, setOtpload] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
   const router = useRouter();
+  const [buttonstate, setButtonState] = useState("Register");
+  const [buttonerror, setButtonerror] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  const handleOtp = async (e)=>{
+    if(formData.email){
+      setOtpload(true);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/generate-otp`,{email: formData.email});
+      if (response.status === 201) {
+        console.log('res', response.data);
+      }
+      setOtpload(false);
+      setOtpon(!otpon);
+    } else {
+      setOtpload(false);
+      alert("please enter email");
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,10 +44,13 @@ function Page() {
         router.push("/profile");
       }
     } catch (error) {
+      setLoad(false);
+      setButtonerror(true);
+      setButtonState(error.response.data)
       console.error(error);
     }
   };
-
+  
   return (
     <div className="w-screen flex items-center justify-center">
       <div className="bg-neutral-950 max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input">
@@ -52,29 +73,41 @@ function Page() {
               required
               />
           </div>
+          <div className="mb-2">
+            <button disabled={otpload} className={`bg-neutral-500 hover:bg-[#FF4D00] duration-500 px-2 py-1 rounded-md text-xs disabled:cursor-not-allowed}`} onClick={handleOtp}>
+              {
+                otpload ? <p>wait</p> : <p>use OTP</p>
+              }
+            </button>
+            {
+              otpon ? 
+              <button className="text-xs text-neutral-300 ml-2">OTP sent to <span className="text-[#FF4D00]">{formData.email}</span></button> :
+              <></>
+            }
+          </div>
           <div className="mb-4">
-            <label htmlFor="password">Password*</label>
+            <label htmlFor="password">{otpon ? 'OTP' : 'Password'}*</label>
             <input
               name="password"
               onChange={handleChange}
               value={formData.password}
               id="password"
-              placeholder="••• •••"
+              placeholder="••••••"
               type="password"
               className="bg-neutral-200 text-black h-12 px-4 rounded-md w-full"
               required
               />
           </div>
-            <button
-              type="submit"
-              className={`bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] ${formData.email || formData.password ? '' : 'pointer-events-none'}`}
-            >
-              {
-                load ?
-                <Loader/> :
-                <div>Register →</div>
-              }
-            </button>
+          <button
+            type="submit"
+            className={`bg-gradient-to-b from-neutral-800 to-neutral-900 dark:bg-zinc-800 w-full py-2 rounded-lg ${buttonerror ? 'font-extralight text-red-600' : 'text-[#FF4D00]'} ${formData.email || formData.password ? '' : 'pointer-events-none'}`}
+          >
+            {
+              load ?
+              <Loader/> :
+              <div>{buttonstate}</div>
+            }
+          </button>
         </form>
       </div>
     </div>

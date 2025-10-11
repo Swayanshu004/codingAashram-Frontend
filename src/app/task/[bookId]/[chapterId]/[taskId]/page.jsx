@@ -4,7 +4,6 @@ import Link from "next/link";
 import axios from "axios";
 import Loader from "@/components/Loader";
 
-
 // TaskPage Component
 const TaskPage = ({params}) => {
   const [load, setLoad] = useState(true);
@@ -17,7 +16,6 @@ const TaskPage = ({params}) => {
   const [questionCheck, setQuestionCheck] = useState(false);
   const [exerciseCheck, setExerciseCheck] = useState(false);
 
-  
   useEffect(()=> {
     axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/openedTask/${params.bookId}/${params.chapterId}/${params.taskId}`, {  
       headers: { 
