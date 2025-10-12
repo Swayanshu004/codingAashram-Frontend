@@ -155,13 +155,14 @@ const handleSubmitExercise = (e) => {
 
               <div>
                 <h1 className="text-xl font-bold mb-4 ml-4">Score Board :</h1>
-                <div className="mb-10 p-10 rounded-xl w-full bg-neutral-900 flex items-center justify-around">
+                <div className="mb-10 p-10 rounded-xl w-full bg-neutral-800 flex items-center justify-around">
                 <h1 className="text-lg font-semibold">Question Score: 
                   <span 
                   className={`${qsScore-questions.length === 0 ? "text-green-500" : "text-amber-500"} ml-4 text-2xl`}
                   >{qsScore} / {questions.length}
                   </span>
                 </h1>
+                <span className="text-neutral-500 ">|</span>
                 <h1 className="text-lg font-semibold">Exercise Score: 
                   <span 
                   className={`${exScore-exercise.length === 0 ? "text-green-500" : "text-amber-500"} ml-4 text-2xl`}
