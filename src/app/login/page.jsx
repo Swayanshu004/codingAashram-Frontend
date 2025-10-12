@@ -17,7 +17,7 @@ function Page() {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  const handleOtp = async (e)=>{
+  const handleOtp = async ()=>{
     if(formData.email){
       setOtpload(true);
       const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/generate-otp`,{email: formData.email});
