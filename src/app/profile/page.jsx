@@ -9,7 +9,7 @@ export default function ProfileCard() {
   const [load, setload] = useState(true);
   const [name, setName] = useState();
   const [email, setEmail] = useState();
-  const [roadmap, setRoadmap] = useState([""]);
+  const [roadmap, setRoadmap] = useState([]);
   
   useEffect(()=> {
     axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/userProfile/`, {  
@@ -22,10 +22,13 @@ export default function ProfileCard() {
         setName(res.data.name);
         setEmail(res.data.email);
         setRoadmap(res.data.roadmaps)
-        setload(false);
       }
     })
-    .catch(err => console.error(err));
+    .catch(err => {
+      setload(false);
+      console.error(err);
+    }
+  );
   },[])
   return (
     <div className="font-mono min-h-screen bg-black text-3xl font-semibold px-9 py-9">

@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { FaUser } from "react-icons/fa";
 
 const Header = () => {
   return (
@@ -11,8 +12,8 @@ const Header = () => {
         </div>
       </Link>
       <Link href="/profile">
-        <div className="h-6 w-6 md:h-10 md:w-10 bg-white rounded-full flex items-center justify-center">
-          
+        <div className="h-6 w-6 md:h-10 md:w-10 bg-neutral-600 rounded-full flex items-center justify-center">
+          <FaUser />
         </div>
       </Link>
     </header>
