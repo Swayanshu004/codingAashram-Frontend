@@ -17,11 +17,12 @@ export default function ProfileCard() {
         "authorization" : localStorage.getItem("jwtToken") 
       }
     })
-    .then(res => {    
+    .then(res => { 
       if (res.status === 201 && res.data.roadmaps && Array.isArray(res.data.roadmaps)) {
         setName(res.data.name);
         setEmail(res.data.email);
         setRoadmap(res.data.roadmaps)
+        setload(false);
       }
     })
     .catch(err => {
